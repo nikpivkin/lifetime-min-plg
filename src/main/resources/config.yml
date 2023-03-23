@@ -1,0 +1,16 @@
+enable: true
+lifetime:
+  atStart: 600
+  startAfter: 15
+  lost: 0.5
+  onOutCallback: "kick"
+
+excluded:
+  - 'admin'
+
+messages:
+
+
+reward:
+  default: 20
+  pig: 10
