@@ -1,7 +1,7 @@
 name: minecraft-lifetime-plugin
 version: '${version}'
 author: 'Nikita Pivkin'
-main: io.github.nikpivkin.LifetimePlugin
+main: io.github.nikpivkin.lifetime.LifetimePlugin
 api-version: 1.19
 commands:
   lifetime: { }
