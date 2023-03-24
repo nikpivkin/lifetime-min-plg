@@ -37,7 +37,7 @@ public class AddLifetimeCommand implements Command {
     var player = Bukkit.getPlayer(playerName);
 
     if (player == null) {
-      sender.sendMessage(ChatColor.RED + "Player with name + " + playerName + " not found");
+      sender.sendMessage(ChatColor.RED + "Player with name " + playerName + " not found");
       return false;
     }
 

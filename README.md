@@ -30,7 +30,7 @@ Available Commands:
   disable                                     Выключает плагин (не глобально)
   add <username> <amount>                     Добавляет игроку время жизни (в секундах)
   set <username> <amount>                     Устаналивает игроку время жизни (в секундах)
-  
+  get <username>                              Выводит текущее время жизни игрока
 ```
 
 ## Config
