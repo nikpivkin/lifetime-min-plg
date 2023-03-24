@@ -1,4 +1,4 @@
-enable: true
+enabled: true
 lifetime:
   atStart: 600
   startAfter: 15

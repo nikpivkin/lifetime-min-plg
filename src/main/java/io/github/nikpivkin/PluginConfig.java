@@ -1,5 +1,6 @@
 package io.github.nikpivkin;
 
+import java.util.List;
 import java.util.Set;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -42,7 +43,7 @@ public class PluginConfig {
   }
 
   private void initVariables() {
-    enabled = configuration.getBoolean("enable", true);
+    enabled = configuration.getBoolean("enabled", true);
     lifetimeAtStart = configuration.getObject(
         "lifetime.atStart", Lifetime.class, new Lifetime(600)
     );
@@ -93,6 +94,7 @@ public class PluginConfig {
 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
+    configuration.set("enabled", enabled);
     save();
   }
 
@@ -102,9 +104,13 @@ public class PluginConfig {
 
   public void excludeUser(String name) {
     this.excludedUsers.add(name);
+    configuration.set("excluded", List.copyOf(excludedUsers));
+    save();
   }
 
   public void includeUser(String name) {
     this.excludedUsers.remove(name);
+    configuration.set("excluded", List.copyOf(excludedUsers));
+    save();
   }
 }
