@@ -46,6 +46,5 @@ public final class LifetimePlugin extends JavaPlugin {
   @Override
   public void onDisable() {
     taskManager.cancelTask(Bukkit.getOnlinePlayers());
-    Bukkit.getOnlinePlayers().forEach(taskManager::cancelTask);
   }
 }
