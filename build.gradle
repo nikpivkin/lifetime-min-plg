@@ -1,5 +1,10 @@
 plugins {
+    id 'net.minecrell.plugin-yml.bukkit' version '0.5.3'
+    id 'xyz.jpenilla.run-paper' version '2.0.0'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.10'
+    id 'com.rikonardo.papermake' version '1.0.6'
 }
 
 group = 'io.github.nikpivkin'
@@ -7,6 +12,7 @@ version = '0.0.1'
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
     maven {
         name = "papermc-repo"
         url = "https://repo.papermc.io/repository/maven-public/"
@@ -34,6 +40,26 @@ java {
 tasks.withType(JavaCompile).configureEach {
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         options.release.set(targetJavaVersion)
+    }
+}
+
+bukkit {
+    name = "lifetime-minecraft-plugin"
+    author = "Nikita Pivkin"
+    main = 'io.github.nikpivkin.lifetime.KotlinPlugin'
+    description = project.description as String
+    version = project.version as String
+
+    apiVersion = '1.19'
+
+    commands {
+        lifetime {}
+    }
+}
+
+tasks {
+    runServer {
+        minecraftVersion("1.19.2")
     }
 }
 
