@@ -1,5 +1,7 @@
 package io.github.nikpivkin;
 
+import io.github.nikpivkin.localize.Localizer;
+import io.github.nikpivkin.localize.Messages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
@@ -16,15 +18,18 @@ public class LifetimeListener implements Listener {
   private final LifetimeService lifetimeService;
   private final LifetimeTaskManager lifetimeTaskManager;
   private final PluginConfig config;
+  private final Localizer localizer;
 
   public LifetimeListener(
       LifetimeService lifetimeService,
       LifetimeTaskManager lifetimeTaskManager,
-      PluginConfig config
+      PluginConfig config,
+      Localizer localizer
   ) {
     this.lifetimeService = lifetimeService;
     this.lifetimeTaskManager = lifetimeTaskManager;
     this.config = config;
+    this.localizer = localizer;
   }
 
   @EventHandler
@@ -44,7 +49,8 @@ public class LifetimeListener implements Listener {
 
     player.showTitle(
         Title.title(
-            Component.text("Твоя время: " + lifetime),
+            Component.text(
+                localizer.translate(player.locale(), Messages.PLAYER_YOUR_TIME, lifetime)),
             Component.empty()
         )
     );
@@ -87,7 +93,8 @@ public class LifetimeListener implements Listener {
       var lifetime = lifetimeService.takeTimeFromPlayer(player);
       player.sendMessage(
           Component
-              .text(String.format("Ты умер и потерял %s секунд", lifetime))
+              .text(
+                  localizer.translate(player.locale(), Messages.PLAYER_YOU_DIED_AND_LOST, lifetime))
               .color(NamedTextColor.RED)
       );
       return;
@@ -96,17 +103,25 @@ public class LifetimeListener implements Listener {
     var lifetime = lifetimeService.transferLifetimeToAnotherPlayer(player, killer);
     player.sendMessage(
         Component
-            .text(String.format(
-                "Тебя убил игрок %s и ты потерял %s секунд", killer.getName(), lifetime
-            ))
+            .text(
+                localizer.translate(
+                    player.locale(),
+                    Messages.PLAYER_YOU_WERE_KILLED_AND_YOU_LOST,
+                    killer.getName(), lifetime
+                )
+            )
             .color(NamedTextColor.RED)
     );
 
     killer.sendMessage(
         Component
-            .text(String.format(
-                "Ты убил игрока %s и получаешь %s секунд в награду", player.getName(), lifetime
-            ))
+            .text(
+                localizer.translate(
+                    killer.locale(),
+                    Messages.PLAYER_YOU_KILLED_AND_GOT,
+                    player.getName(), lifetime
+                )
+            )
             .color(NamedTextColor.GREEN)
     );
   }
@@ -127,9 +142,13 @@ public class LifetimeListener implements Listener {
     lifetimeService.getLifetimeAsReward(killer, deader)
         .ifPresent(lifetime -> killer.sendMessage(
             Component
-                .text(String.format(
-                    "Ты убил %s и получаешь %s секунд в награду", deader.getName(), lifetime
-                ))
+                .text(
+                    localizer.translate(
+                        killer.locale(),
+                        Messages.PLAYER_YOU_KILLED_AND_GOT,
+                        deader.getName(), lifetime
+                    )
+                )
                 .color(NamedTextColor.GREEN)
         ));
   }

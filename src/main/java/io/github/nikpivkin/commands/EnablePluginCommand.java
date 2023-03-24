@@ -1,15 +1,19 @@
 package io.github.nikpivkin.commands;
 
 import io.github.nikpivkin.PluginService;
+import io.github.nikpivkin.localize.Localizer;
+import io.github.nikpivkin.localize.Messages;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 public class EnablePluginCommand implements Command {
 
   private final PluginService pluginService;
+  private final Localizer localizer;
 
-  public EnablePluginCommand(PluginService pluginService) {
+  public EnablePluginCommand(PluginService pluginService, Localizer localizer) {
     this.pluginService = pluginService;
+    this.localizer = localizer;
   }
 
   @Override
@@ -25,7 +29,7 @@ public class EnablePluginCommand implements Command {
       @NotNull String[] args
   ) {
     pluginService.enable();
-    sender.sendMessage("Lifetime plugin has enabled");
+    sender.sendMessage(Messages.COMMAND_ENABLE_OK);
     return true;
   }
 }

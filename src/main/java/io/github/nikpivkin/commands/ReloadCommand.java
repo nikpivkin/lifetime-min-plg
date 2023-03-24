@@ -1,15 +1,19 @@
 package io.github.nikpivkin.commands;
 
 import io.github.nikpivkin.PluginService;
+import io.github.nikpivkin.localize.Localizer;
+import io.github.nikpivkin.localize.Messages;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 public class ReloadCommand implements Command {
 
   private final PluginService pluginService;
+  private final Localizer localizer;
 
-  public ReloadCommand(PluginService pluginService) {
+  public ReloadCommand(PluginService pluginService, Localizer localizer) {
     this.pluginService = pluginService;
+    this.localizer = localizer;
   }
 
   @Override
@@ -25,7 +29,7 @@ public class ReloadCommand implements Command {
       @NotNull String[] args
   ) {
     pluginService.reload();
-    sender.sendMessage("Config reloaded");
+    sender.sendMessage(Messages.COMMAND_RELOAD_OK);
     return true;
   }
 }

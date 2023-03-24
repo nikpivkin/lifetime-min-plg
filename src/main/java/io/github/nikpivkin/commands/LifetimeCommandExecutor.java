@@ -1,8 +1,9 @@
 package io.github.nikpivkin.commands;
 
 import io.github.nikpivkin.LifetimeService;
-import io.github.nikpivkin.PluginConfig;
 import io.github.nikpivkin.PluginService;
+import io.github.nikpivkin.localize.Localizer;
+import io.github.nikpivkin.localize.Messages;
 import java.util.List;
 import java.util.function.Predicate;
 import org.bukkit.ChatColor;
@@ -15,36 +16,35 @@ import org.jetbrains.annotations.NotNull;
 public class LifetimeCommandExecutor implements CommandExecutor {
 
   public static final String NAME = "lifetime";
-
-  private final PluginConfig config;
   private final LifetimeService lifetimeService;
   private final PluginService pluginService;
   private final Plugin plugin;
+  private final Localizer localizer;
   private final List<io.github.nikpivkin.commands.Command> commands;
 
   public LifetimeCommandExecutor(
-      PluginConfig config,
       LifetimeService lifetimeService,
       PluginService pluginService,
-      Plugin plugin
+      Plugin plugin,
+      Localizer localizer
   ) {
-    this.config = config;
     this.lifetimeService = lifetimeService;
     this.pluginService = pluginService;
     this.plugin = plugin;
+    this.localizer = localizer;
     this.commands = initCommands();
   }
 
   private List<io.github.nikpivkin.commands.Command> initCommands() {
     return List.of(
-        new UsageCommand(),
-        new ReloadCommand(pluginService),
-        new SetLifetimeCommand(lifetimeService),
-        new AddLifetimeCommand(lifetimeService),
-        new DisablePluginCommand(pluginService),
-        new EnablePluginCommand(pluginService),
-        new GetLifetimeCommand(lifetimeService),
-        new GodModeCommand(pluginService, plugin)
+        new UsageCommand(localizer),
+        new ReloadCommand(pluginService, localizer),
+        new SetLifetimeCommand(lifetimeService, localizer),
+        new AddLifetimeCommand(lifetimeService, localizer),
+        new DisablePluginCommand(pluginService, localizer),
+        new EnablePluginCommand(pluginService, localizer),
+        new GetLifetimeCommand(lifetimeService, localizer),
+        new GodModeCommand(pluginService, plugin, localizer)
     );
   }
 
@@ -56,7 +56,7 @@ public class LifetimeCommandExecutor implements CommandExecutor {
       @NotNull String[] args
   ) {
     if (args.length == 0) {
-      return new UsageCommand().execute(sender, command, label, args);
+      return new UsageCommand(localizer).execute(sender, command, label, args);
     }
 
     var firstCommand = cmd(args[0]);
@@ -66,8 +66,8 @@ public class LifetimeCommandExecutor implements CommandExecutor {
         .findFirst()
         .map(cmd -> cmd.execute(sender, command, label, args))
         .orElseGet(() -> {
-          sender.sendMessage(ChatColor.RED + "Unknown command");
-          return new UsageCommand().execute(sender, command, label, args);
+          sender.sendMessage(ChatColor.RED + Messages.UNKNOWN_COMMAND);
+          return new UsageCommand(localizer).execute(sender, command, label, args);
         });
   }
 

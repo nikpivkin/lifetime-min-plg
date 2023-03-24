@@ -13,12 +13,12 @@ public abstract sealed class PluginStateChangedEvent extends Event {
     this.enabled = enabled;
   }
 
-  @Override
-  public @NotNull HandlerList getHandlers() {
+  public static HandlerList getHandlerList() {
     return HANDLERS;
   }
 
-  public static HandlerList getHandlerList() {
+  @Override
+  public @NotNull HandlerList getHandlers() {
     return HANDLERS;
   }
 

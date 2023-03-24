@@ -1,5 +1,7 @@
 package io.github.nikpivkin;
 
+import io.github.nikpivkin.localize.Localizer;
+import io.github.nikpivkin.localize.Messages;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -15,10 +17,21 @@ public sealed interface OnTimeOutCallback {
 
   final class Kick implements OnTimeOutCallback {
 
+    private final Localizer localizer;
+
+    public Kick(Localizer localizer) {
+      this.localizer = localizer;
+    }
+
     @Override
     public void apply(Player player) {
       player.kick(
-          Component.text("Твое время вышло =)"),
+          Component.text(
+              localizer.translate(
+                  player.locale(),
+                  Messages.PLAYER_YOUR_TIME_IS_UP
+              )
+          ),
           Cause.PLUGIN
       );
     }
@@ -26,9 +39,11 @@ public sealed interface OnTimeOutCallback {
 
   final class Ban implements OnTimeOutCallback {
 
+    private final Localizer localizer;
     private final Optional<Long> blockingTimeInSeconds;
 
-    public Ban(Long blockingTimeInSeconds) {
+    public Ban(Localizer localizer, Long blockingTimeInSeconds) {
+      this.localizer = localizer;
       this.blockingTimeInSeconds = Optional.ofNullable(blockingTimeInSeconds);
     }
 
@@ -38,7 +53,13 @@ public sealed interface OnTimeOutCallback {
           e -> LocalDate.now().plus(e, ChronoUnit.SECONDS)
       ).map(date -> Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
-      player.banPlayerFull("Твое время вышло =)", expires.orElse(null), null);
+      player.banPlayerFull(
+          localizer.translate(
+              player.locale(),
+              Messages.PLAYER_YOUR_TIME_IS_UP
+          ),
+          expires.orElse(null), null)
+      ;
     }
   }
 }

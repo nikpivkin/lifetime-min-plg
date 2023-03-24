@@ -1,9 +1,17 @@
 package io.github.nikpivkin.commands;
 
+import io.github.nikpivkin.localize.Localizer;
+import io.github.nikpivkin.localize.Messages;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 public class UsageCommand implements Command {
+
+  private final Localizer localizer;
+
+  public UsageCommand(Localizer localizer) {
+    this.localizer = localizer;
+  }
 
   @Override
   public @NotNull String name() {
@@ -16,7 +24,7 @@ public class UsageCommand implements Command {
       org.bukkit.command.@NotNull Command command,
       @NotNull String label,
       @NotNull String[] args) {
-    sender.sendMessage("Usage...");
+    sender.sendMessage(Messages.COMMAND_USAGE_USAGE);
     return true;
   }
 }

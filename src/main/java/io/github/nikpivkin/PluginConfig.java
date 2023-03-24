@@ -1,5 +1,6 @@
 package io.github.nikpivkin;
 
+import io.github.nikpivkin.localize.Localizer;
 import java.util.List;
 import java.util.Set;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -9,6 +10,8 @@ public class PluginConfig {
 
   private final Plugin plugin;
   private final FileConfiguration configuration;
+  private final Localizer localizer;
+
   private boolean enabled;
   private Lifetime lifetimeAtStart;
   private int lifetimeStartAfter;
@@ -18,8 +21,9 @@ public class PluginConfig {
   private int defaultReward;
   private Set<String> excludedUsers;
 
-  private PluginConfig(Plugin plugin) {
+  public PluginConfig(Plugin plugin, Localizer localizer) {
     this.plugin = plugin;
+    this.localizer = localizer;
     plugin.saveDefaultConfig();
 
     this.configuration = plugin.getConfig()
@@ -30,12 +34,9 @@ public class PluginConfig {
     initVariables();
   }
 
-  public static PluginConfig create(Plugin plugin) {
-    return new PluginConfig(plugin);
-  }
-
   public void reload() {
     plugin.reloadConfig();
+    initVariables();
   }
 
   private void save() {
@@ -62,8 +63,8 @@ public class PluginConfig {
 
   private OnTimeOutCallback initOnTimeoutCallback(String value) {
     return switch (value.toLowerCase()) {
-      case "kick" -> new OnTimeOutCallback.Kick();
-      case "ban" -> new OnTimeOutCallback.Ban(banTime);
+      case "kick" -> new OnTimeOutCallback.Kick(localizer);
+      case "ban" -> new OnTimeOutCallback.Ban(localizer, banTime);
       default -> throw new IllegalStateException("Unexpected value: " + value);
     };
   }

@@ -1,6 +1,8 @@
 package io.github.nikpivkin.commands;
 
 import io.github.nikpivkin.PluginService;
+import io.github.nikpivkin.localize.Localizer;
+import io.github.nikpivkin.localize.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -11,10 +13,12 @@ public class GodModeCommand implements Command {
 
   private final PluginService pluginService;
   private final Plugin plugin;
+  private final Localizer localizer;
 
-  public GodModeCommand(PluginService pluginService, Plugin plugin) {
+  public GodModeCommand(PluginService pluginService, Plugin plugin, Localizer localizer) {
     this.pluginService = pluginService;
     this.plugin = plugin;
+    this.localizer = localizer;
   }
 
   @Override
@@ -31,7 +35,7 @@ public class GodModeCommand implements Command {
   ) {
 
     if (args.length < 2) {
-      sender.sendMessage("Usage `god` command: /lifetime god enable|disable <username> <time>?");
+      sender.sendMessage(Messages.COMMAND_GOD_MODE_USAGE);
       return false;
     }
 
@@ -39,7 +43,7 @@ public class GodModeCommand implements Command {
     var player = Bukkit.getPlayer(playerName);
 
     if (player == null) {
-      sender.sendMessage(ChatColor.RED + "Player with name " + playerName + " not found");
+      sender.sendMessage(Messages.PLAYER_NOT_FOUND.formatted(playerName));
       return false;
     }
 
@@ -49,22 +53,22 @@ public class GodModeCommand implements Command {
 
     if ("enable".equalsIgnoreCase(subcommand)) {
       pluginService.excludeUser(player);
-      sender.sendMessage("God mode is enabled for the player " + playerName);
+      sender.sendMessage(Messages.COMMAND_GOD_MODE_ENABLED.formatted(playerName));
 
       runnable = () -> {
         pluginService.includeUser(player);
-        sender.sendMessage("the time of the god mode for the player has expired");
+        sender.sendMessage(Messages.COMMAND_GOD_MODE_EXPIRED.formatted(playerName));
       };
     } else if ("disable".equalsIgnoreCase(subcommand)) {
       pluginService.includeUser(player);
-      sender.sendMessage("God mode is disabled for the player " + playerName);
+      sender.sendMessage(Messages.COMMAND_GOD_MODE_DISABLED.formatted(playerName));
 
       runnable = () -> {
         pluginService.excludeUser(player);
-        sender.sendMessage("the time of the god mode for the player has expired");
+        sender.sendMessage(Messages.COMMAND_GOD_MODE_EXPIRED.formatted(playerName));
       };
     } else {
-      sender.sendMessage(ChatColor.RED + "Invalid subcommand");
+      sender.sendMessage(ChatColor.RED + Messages.INVALID_SUBCOMMAND);
       return false;
     }
 
@@ -74,7 +78,7 @@ public class GodModeCommand implements Command {
       try {
         expires = Long.parseLong(args[3]);
       } catch (NumberFormatException nfe) {
-        sender.sendMessage("Invalid expires format");
+        sender.sendMessage(Messages.COMMAND_GOD_MODE_INVALID_EXPIRES);
         return false;
       }
 
@@ -82,7 +86,7 @@ public class GodModeCommand implements Command {
           .scheduleSyncDelayedTask(plugin, runnable, expires * 20);
 
       if (taskId == -1) {
-        plugin.getLogger().severe("failed to schedule a command cancellation task");
+        plugin.getLogger().severe(Messages.COMMAND_GOD_MODE_FAILED_SCHEDULE_TASK);
       }
     }
 
