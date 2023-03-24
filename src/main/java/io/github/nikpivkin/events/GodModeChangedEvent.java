@@ -21,6 +21,10 @@ public abstract sealed class GodModeChangedEvent extends PlayerEvent {
     return HANDLERS;
   }
 
+  public static HandlerList getHandlerList() {
+    return HANDLERS;
+  }
+
   public boolean isGodModeEnabled() {
     return godModeEnabled;
   }

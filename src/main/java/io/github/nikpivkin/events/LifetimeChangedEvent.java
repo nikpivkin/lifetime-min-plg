@@ -24,6 +24,10 @@ public class LifetimeChangedEvent extends Event {
     return HANDLERS;
   }
 
+  public static HandlerList getHandlerList() {
+    return HANDLERS;
+  }
+
   public Player getPlayer() {
     return player;
   }

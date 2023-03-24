@@ -12,4 +12,8 @@ public class PluginReloadEvent extends Event {
   public @NotNull HandlerList getHandlers() {
     return HANDLERS;
   }
+
+  public static HandlerList getHandlerList() {
+    return HANDLERS;
+  }
 }

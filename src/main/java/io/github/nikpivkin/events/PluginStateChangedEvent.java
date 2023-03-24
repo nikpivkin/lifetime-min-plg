@@ -18,6 +18,10 @@ public abstract sealed class PluginStateChangedEvent extends Event {
     return HANDLERS;
   }
 
+  public static HandlerList getHandlerList() {
+    return HANDLERS;
+  }
+
   public boolean isEnabled() {
     return enabled;
   }
