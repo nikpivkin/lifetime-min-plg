@@ -46,14 +46,14 @@ public class AddLifetimeCommand implements Command {
       return false;
     }
 
-    var local = localizer.translate(player.locale());
-
     long amount;
 
     try {
       amount = Long.parseLong(args[2]);
     } catch (NumberFormatException nfe) {
-      sender.sendMessage(ChatColor.RED + local.apply(Messages.COMMAND_ADD_INVALID_AMOUNT));
+      sender.sendMessage(
+          ChatColor.RED + localizer.translate(player.locale(), Messages.COMMAND_ADD_INVALID_AMOUNT)
+      );
       return false;
     }
 
@@ -62,7 +62,9 @@ public class AddLifetimeCommand implements Command {
     var oldLifetime = lifetimeService.getLifeTime(player);
     var newLifetime = lifetimeService.increaseLifeTime(player, new Lifetime(amount));
     Bukkit.getPluginManager().callEvent(new LifetimeChangedEvent(player, oldLifetime, newLifetime));
-    sender.sendMessage(local.apply(Messages.PLAYER_HAS_LIFETIME, playerName, amount));
+    sender.sendMessage(
+        localizer.translate(player.locale(), Messages.PLAYER_HAS_LIFETIME, playerName, amount)
+    );
     return true;
   }
 }

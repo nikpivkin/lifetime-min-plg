@@ -71,12 +71,12 @@ public final class LifetimePlugin extends JavaPlugin {
   private Localizer initLocalizer() {
     var translationsDirectory = new File(getDataFolder(), "i18n");
     if (!translationsDirectory.exists()) {
-      return new LocalizerImpl(LanguageStorage.EMPTY);
+      return new LocalizerImpl(new LanguageStorage.Empty());
     }
     var languageStorage = new LanguageStorageImpl(translationsDirectory);
     if (!languageStorage.loadAllLanguages()) {
       getLogger().severe("Failed to load resources with translations");
-      return new LocalizerImpl(LanguageStorage.EMPTY);
+      return new LocalizerImpl(new LanguageStorage.Empty());
     }
 
     return new LocalizerImpl(languageStorage);

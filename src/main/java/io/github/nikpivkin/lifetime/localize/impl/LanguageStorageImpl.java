@@ -54,8 +54,7 @@ public class LanguageStorageImpl implements LanguageStorage {
     return getFormatters(locale).map(m -> m.get(key));
   }
 
-  @Override
-  public Optional<Map<String, MessageFormat>> getFormatters(Locale locale) {
+  private Optional<Map<String, MessageFormat>> getFormatters(Locale locale) {
     var formatters = localeFormatters.get(locale);
     return Optional.ofNullable(formatters);
   }

@@ -34,7 +34,7 @@ public class GodModeCommand implements Command {
       @NotNull String[] args
   ) {
 
-    if (args.length < 2) {
+    if (args.length < 3) {
       sender.sendMessage(Messages.COMMAND_GOD_MODE_USAGE);
       return false;
     }
@@ -72,7 +72,7 @@ public class GodModeCommand implements Command {
       return false;
     }
 
-    if (args.length > 3) {
+    if (args.length > 4) {
       long expires;
 
       try {

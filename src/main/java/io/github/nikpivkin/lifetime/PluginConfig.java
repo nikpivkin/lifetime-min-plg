@@ -2,6 +2,7 @@ package io.github.nikpivkin.lifetime;
 
 import io.github.nikpivkin.lifetime.localize.Localizer;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -64,7 +65,7 @@ public class PluginConfig {
   private OnTimeOutCallback initOnTimeoutCallback(String value) {
     return switch (value.toLowerCase()) {
       case "kick" -> new OnTimeOutCallback.Kick(localizer);
-      case "ban" -> new OnTimeOutCallback.Ban(localizer, banTime);
+      case "ban" -> new OnTimeOutCallback.Ban(localizer, Optional.ofNullable(banTime));
       default -> throw new IllegalStateException("Unexpected value: " + value);
     };
   }

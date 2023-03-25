@@ -1,10 +1,11 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id 'net.minecrell.plugin-yml.bukkit' version '0.5.3'
     id 'xyz.jpenilla.run-paper' version '2.0.0'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.8.10'
-    id 'com.rikonardo.papermake' version '1.0.6'
 }
 
 group = 'io.github.nikpivkin'
@@ -25,6 +26,7 @@ repositories {
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT"
+    compileOnly "io.insert-koin:koin-core:3.3.3"
 }
 
 def targetJavaVersion = 17
@@ -43,10 +45,16 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+tasks.withType(KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = targetJavaVersion.toString()
+    }
+}
+
 bukkit {
     name = "lifetime-minecraft-plugin"
     author = "Nikita Pivkin"
-    main = 'io.github.nikpivkin.lifetime.KotlinPlugin'
+    main = 'io.github.nikpivkin.lifetime.LifetimePlugin'
     description = project.description as String
     version = project.version as String
 
