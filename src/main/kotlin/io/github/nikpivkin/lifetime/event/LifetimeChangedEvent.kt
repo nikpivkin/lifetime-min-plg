@@ -1,4 +1,4 @@
-package io.github.nikpivkin.lifetime.events
+package io.github.nikpivkin.lifetime.event
 
 import io.github.nikpivkin.lifetime.Lifetime
 import org.bukkit.entity.Player

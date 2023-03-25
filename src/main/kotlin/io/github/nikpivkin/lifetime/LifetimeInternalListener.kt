@@ -1,8 +1,8 @@
 package io.github.nikpivkin.lifetime
 
-import io.github.nikpivkin.lifetime.events.GodModeChangedEvent
-import io.github.nikpivkin.lifetime.events.LifetimeChangedEvent
-import io.github.nikpivkin.lifetime.events.PluginStateChangedEvent
+import io.github.nikpivkin.lifetime.event.GodModeChangedEvent
+import io.github.nikpivkin.lifetime.event.LifetimeChangedEvent
+import io.github.nikpivkin.lifetime.event.PluginStateChangedEvent
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

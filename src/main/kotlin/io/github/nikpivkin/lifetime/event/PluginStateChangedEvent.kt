@@ -1,4 +1,4 @@
-package io.github.nikpivkin.lifetime.events
+package io.github.nikpivkin.lifetime.event
 
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList

@@ -1,8 +1,8 @@
-package io.github.nikpivkin.lifetime.commands;
+package io.github.nikpivkin.lifetime.command;
 
 import io.github.nikpivkin.lifetime.Lifetime;
 import io.github.nikpivkin.lifetime.LifetimeService;
-import io.github.nikpivkin.lifetime.events.LifetimeChangedEvent;
+import io.github.nikpivkin.lifetime.event.LifetimeChangedEvent;
 import io.github.nikpivkin.lifetime.localize.Localizer;
 import io.github.nikpivkin.lifetime.localize.Messages;
 import org.bukkit.Bukkit;
@@ -10,19 +10,19 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-public class SetLifetimeCommand implements Command {
+public class AddLifetimeCommand implements Command {
 
   private final LifetimeService lifetimeService;
   private final Localizer localizer;
 
-  public SetLifetimeCommand(LifetimeService lifetimeService, Localizer localizer) {
+  public AddLifetimeCommand(LifetimeService lifetimeService, Localizer localizer) {
     this.lifetimeService = lifetimeService;
     this.localizer = localizer;
   }
 
   @Override
   public @NotNull String name() {
-    return "set";
+    return "add";
   }
 
   @Override
@@ -32,15 +32,17 @@ public class SetLifetimeCommand implements Command {
       @NotNull String label,
       @NotNull String[] args
   ) {
+
     if (args.length < 3) {
-      sender.sendMessage(Messages.COMMAND_SET_USAGE);
+
+      sender.sendMessage(Messages.COMMAND_ADD_USAGE);
       return false;
     }
     var playerName = args[1];
     var player = Bukkit.getPlayer(playerName);
 
     if (player == null) {
-      sender.sendMessage(Messages.PLAYER_NOT_FOUND.formatted(playerName));
+      sender.sendMessage(ChatColor.RED + Messages.PLAYER_NOT_FOUND.formatted(playerName));
       return false;
     }
 
@@ -49,15 +51,20 @@ public class SetLifetimeCommand implements Command {
     try {
       amount = Long.parseLong(args[2]);
     } catch (NumberFormatException nfe) {
-      sender.sendMessage(ChatColor.RED + Messages.COMMAND_SET_INVALID_AMOUNT);
+      sender.sendMessage(
+          ChatColor.RED + localizer.translate(player.locale(), Messages.COMMAND_ADD_INVALID_AMOUNT)
+      );
       return false;
     }
 
+    Bukkit.getLogger().info(Bukkit.getConsoleSender().getName());
+
     var oldLifetime = lifetimeService.getLifeTime(player);
-    var newLifetime = lifetimeService.setLifetime(player, new Lifetime(amount));
+    var newLifetime = lifetimeService.increaseLifeTime(player, new Lifetime(amount));
     Bukkit.getPluginManager().callEvent(new LifetimeChangedEvent(player, oldLifetime, newLifetime));
-    sender.sendMessage(Messages.COMMAND_SET_LIFETIME_TO.formatted(playerName, newLifetime));
+    sender.sendMessage(
+        localizer.translate(player.locale(), Messages.PLAYER_HAS_LIFETIME, playerName, amount)
+    );
     return true;
   }
-
 }

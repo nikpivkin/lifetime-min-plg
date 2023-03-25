@@ -1,4 +1,4 @@
-package io.github.nikpivkin.lifetime.commands;
+package io.github.nikpivkin.lifetime.command;
 
 import io.github.nikpivkin.lifetime.PluginService;
 import io.github.nikpivkin.lifetime.localize.Localizer;

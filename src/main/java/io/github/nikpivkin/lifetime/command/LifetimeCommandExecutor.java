@@ -1,4 +1,4 @@
-package io.github.nikpivkin.lifetime.commands;
+package io.github.nikpivkin.lifetime.command;
 
 import io.github.nikpivkin.lifetime.LifetimeService;
 import io.github.nikpivkin.lifetime.PluginService;
@@ -20,7 +20,7 @@ public class LifetimeCommandExecutor implements CommandExecutor {
   private final PluginService pluginService;
   private final Plugin plugin;
   private final Localizer localizer;
-  private final List<io.github.nikpivkin.lifetime.commands.Command> commands;
+  private final List<io.github.nikpivkin.lifetime.command.Command> commands;
 
   public LifetimeCommandExecutor(
       LifetimeService lifetimeService,
@@ -35,7 +35,7 @@ public class LifetimeCommandExecutor implements CommandExecutor {
     this.commands = initCommands();
   }
 
-  private List<io.github.nikpivkin.lifetime.commands.Command> initCommands() {
+  private List<io.github.nikpivkin.lifetime.command.Command> initCommands() {
     return List.of(
         new UsageCommand(localizer),
         new ReloadCommand(pluginService, localizer),

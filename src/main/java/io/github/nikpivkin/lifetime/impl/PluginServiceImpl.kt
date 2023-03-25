@@ -2,9 +2,9 @@ package io.github.nikpivkin.lifetime.impl
 
 import io.github.nikpivkin.lifetime.PluginConfig
 import io.github.nikpivkin.lifetime.PluginService
-import io.github.nikpivkin.lifetime.events.GodModeChangedEvent
-import io.github.nikpivkin.lifetime.events.PluginReloadEvent
-import io.github.nikpivkin.lifetime.events.PluginStateChangedEvent
+import io.github.nikpivkin.lifetime.event.GodModeChangedEvent
+import io.github.nikpivkin.lifetime.event.PluginReloadEvent
+import io.github.nikpivkin.lifetime.event.PluginStateChangedEvent
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 

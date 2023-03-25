@@ -1,4 +1,4 @@
-package io.github.nikpivkin.lifetime.commands;
+package io.github.nikpivkin.lifetime.command;
 
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;

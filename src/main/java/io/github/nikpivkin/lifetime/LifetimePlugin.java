@@ -1,6 +1,6 @@
 package io.github.nikpivkin.lifetime;
 
-import io.github.nikpivkin.lifetime.commands.LifetimeCommandExecutor;
+import io.github.nikpivkin.lifetime.command.LifetimeCommandExecutor;
 import io.github.nikpivkin.lifetime.impl.LifetimeHolderInDataContainer;
 import io.github.nikpivkin.lifetime.impl.LifetimeServiceImpl;
 import io.github.nikpivkin.lifetime.impl.LifetimeTaskManagerImpl;
