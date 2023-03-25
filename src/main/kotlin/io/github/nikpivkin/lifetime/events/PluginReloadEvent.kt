@@ -1,16 +1,16 @@
-package io.github.nikpivkin.lifetime.events;
+package io.github.nikpivkin.lifetime.events
 
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
-class PluginReloadEvent: Event() {
+class PluginReloadEvent : Event() {
 
-  override fun getHandlers() = HANDLERS
+    override fun getHandlers() = HANDLERS
 
-  companion object {
-    private val HANDLERS = HandlerList();
+    companion object {
+        private val HANDLERS = HandlerList()
 
-    @JvmStatic
-    fun getHandlerList() = HANDLERS
-  }
+        @JvmStatic
+        fun getHandlerList() = HANDLERS
+    }
 }

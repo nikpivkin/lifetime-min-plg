@@ -1,8 +1,8 @@
-package io.github.nikpivkin.lifetime.localize;
+package io.github.nikpivkin.lifetime.localize
 
-import java.util.Locale;
+import java.util.Locale
 
 interface Localizer {
 
-  fun translate(locale: Locale, key: String, vararg args: Any): String
+    fun translate(locale: Locale, key: String, vararg args: Any): String
 }

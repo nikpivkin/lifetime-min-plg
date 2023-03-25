@@ -31,9 +31,11 @@ class LifetimeListener(
             return
         }
 
-        val lifetime = if (player.hasPlayedBefore())
+        val lifetime = if (player.hasPlayedBefore()) {
             lifetimeService.getLifeTime(player)
-        else lifetimeService.initLifeTime(player)
+        } else {
+            lifetimeService.initLifeTime(player)
+        }
 
         player.showTitle(
             Title.title(
@@ -101,7 +103,8 @@ class LifetimeListener(
                     localizer.translate(
                         player.locale(),
                         Messages.PLAYER_YOU_WERE_KILLED_AND_YOU_LOST,
-                        killer.name, lifetime
+                        killer.name,
+                        lifetime
                     )
                 )
                 .color(NamedTextColor.RED)
@@ -113,7 +116,8 @@ class LifetimeListener(
                     localizer.translate(
                         killer.locale(),
                         Messages.PLAYER_YOU_KILLED_AND_GOT,
-                        player.name, lifetime
+                        player.name,
+                        lifetime
                     )
                 )
                 .color(NamedTextColor.GREEN)
@@ -138,7 +142,8 @@ class LifetimeListener(
                             localizer.translate(
                                 killer.locale(),
                                 Messages.PLAYER_YOU_KILLED_AND_GOT,
-                                deader.name, it
+                                deader.name,
+                                it
                             )
                         )
                         .color(NamedTextColor.GREEN)
